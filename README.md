@@ -1,2 +1,18 @@
 # goxpath
-stupid thing to make xpath queries easier from bash
+Stupid thing to make xpath queries easier from bash. Try a quick google for `bash xpath` and you might be disappointed. #wahwahwah
+
+NB - due to dependence on gokogiri, you need to install libxml2-devel to build this. (Sorry, I'm still a bit of a golang n00b. :blush:)
+
+It'll read from stdin by default
+
+## Install
+    yum install libxml2-devel     # see above, soz
+    go get github.com/boyvinall/goxpath
+
+## Examples
+
+    ./goxpath -xmlns foo:http://foo -xmlns bar:http://bar -xpath //foo:stuff/bleh -file file.xml
+
+    ./gopath -h
+
+    curl -s http://example.com/doc.xml | goxpath -xpath //example
