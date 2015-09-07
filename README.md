@@ -13,6 +13,9 @@ It'll read from stdin by default
 
     ./goxpath -xmlns foo:http://foo -xmlns bar:http://bar -xpath //foo:stuff/bleh -file file.xml
 
-    ./gopath -h
+    ./gopath -h    # NB: see ENV names e.g. $XP_XMLNS
 
     curl -s http://example.com/doc.xml | goxpath -xpath //example
+
+    export XP_XMLNS=foo:http://foo,bar:http://bar # define in the ENV, separate with comma
+    goxpath -xpath //foo:stuff file.xml
