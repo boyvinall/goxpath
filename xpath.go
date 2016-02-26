@@ -2,14 +2,38 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
+	"strings"
+
 	"github.com/codegangsta/cli"
 	"github.com/moovweb/gokogiri/xml"
 	"github.com/moovweb/gokogiri/xpath"
 	"github.com/pebbe/util"
-	"io/ioutil"
-	"os"
-	"strings"
 )
+
+func parse(c *cli.Context, data []byte) {
+	doc, err := xml.Parse(data, nil, nil, 0, xml.DefaultEncodingBytes)
+	util.CheckErr(err)
+	defer doc.Free()
+
+	xp := doc.DocXPathCtx()
+	for _, xmlns := range c.StringSlice("xmlns") {
+		ns := strings.SplitN(xmlns, ":", 2)
+		if c.Bool("verbose") {
+			fmt.Println("NS " + ns[0] + "==" + ns[1])
+		}
+		xp.RegisterNamespace(ns[0], ns[1])
+	}
+
+	xps := xpath.Compile(c.String("xpath"))
+	s, err := doc.Root().Search(xps)
+	util.CheckErr(err)
+	for _, s := range s {
+		util.CheckErr(err)
+		fmt.Println(s.Content())
+	}
+}
 
 func main() {
 
@@ -30,8 +54,8 @@ func main() {
 			EnvVar: "XP_XPATH",
 		},
 		cli.BoolFlag{
-			Name: "verbose,V",
-			Usage: "print verbose output",
+			Name:   "verbose,V",
+			Usage:  "print verbose output",
 			EnvVar: "XP_VERBOSE",
 		},
 		cli.StringSliceFlag{
@@ -51,27 +75,7 @@ func main() {
 			data, err = ioutil.ReadFile(filename)
 		}
 		util.CheckErr(err)
-
-		doc, err := xml.Parse(data, nil, nil, 0, xml.DefaultEncodingBytes)
-		util.CheckErr(err)
-		defer doc.Free()
-
-		xp := doc.DocXPathCtx()
-		for _, xmlns := range c.StringSlice("xmlns") {
-			ns := strings.SplitN(xmlns, ":", 2)
-			if c.Bool("verbose") {
-				fmt.Println("NS " + ns[0] + "==" + ns[1])
-			}
-			xp.RegisterNamespace(ns[0], ns[1])
-		}
-
-		xps := xpath.Compile(c.String("xpath"))
-		s, err := doc.Root().Search(xps)
-		util.CheckErr(err)
-		for _, s := range s {
-			util.CheckErr(err)
-			fmt.Println(s.Content())
-		}
+		parse(c, data)
 	}
 
 	app.Run(os.Args)

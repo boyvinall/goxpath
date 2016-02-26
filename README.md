@@ -1,4 +1,7 @@
 # goxpath
+
+[![Build Status](https://travis-ci.org/boyvinall/goxpath.svg?branch=master)](https://travis-ci.org/boyvinall/goxpath)  [![Issue Count](https://codeclimate.com/github/boyvinall/goxpath/badges/issue_count.svg)](https://codeclimate.com/github/boyvinall/goxpath)
+
 Stupid thing to make xpath queries easier from bash. Try a quick google for `bash xpath` and you might be disappointed. #wahwahwah
 
 NB - due to dependence on gokogiri, you need to install libxml2-devel to build this. (Sorry, I'm still a bit of a golang n00b. :blush:)
