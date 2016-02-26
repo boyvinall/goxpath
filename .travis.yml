@@ -1,6 +1,15 @@
 language: go
 
+before_script:
+  - go get github.com/codegangsta/cli
+  - go get github.com/moovweb/gokogiri/xml
+  - go get github.com/moovweb/gokogiri/xpath
+  - go get github.com/pebbe/util
+
 go:
   - 1.4
   - 1.5
   - tip
+
+os:
+  - linux
