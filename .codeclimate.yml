@@ -2,11 +2,11 @@
 engines:
   fixme:
     enabled: true
- govet:
+  govet:
     enabled: true
- golint:
+  golint:
     enabled: true
- gofmt:
+  gofmt:
     enabled: true
 ratings:
   paths: []
